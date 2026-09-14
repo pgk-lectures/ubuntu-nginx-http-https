@@ -414,10 +414,10 @@ student@student-server:~$
 sudo apt update
 ```
 
-Установите Nginx и OpenSSL:
+Установите Nginx, OpenSSL и текстовый редактор Vim:
 
 ```bash
-sudo apt install nginx openssl -y
+sudo apt install nginx openssl vim -y
 ```
 
 Запустите Nginx и добавьте его в автоматический запуск:
@@ -459,10 +459,12 @@ sudo mkdir -p /var/www/student-site
 Откройте файл главной страницы:
 
 ```bash
-sudo nano /var/www/student-site/index.html
+sudo vim /var/www/student-site/index.html
 ```
 
-Введите следующий код. Замените ФИО и группу на свои данные.
+После открытия Vim нажмите клавишу `i`, чтобы перейти в режим ввода. В нижней части окна появится надпись `-- INSERT --`.
+
+Введите или вставьте следующий код. Замените ФИО и группу на свои данные.
 
 ```html
 <!DOCTYPE html>
@@ -517,13 +519,15 @@ sudo nano /var/www/student-site/index.html
 </html>
 ```
 
-Сохраните файл:
+Сохраните файл и закройте Vim:
 
-1. Нажмите `Ctrl + O`.
-2. Нажмите `Enter`.
-3. Нажмите `Ctrl + X`.
+1. Нажмите `Esc`, чтобы выйти из режима ввода.
+2. Введите `:wq`.
+3. Нажмите `Enter`.
 
-`nano` — простой текстовый редактор, который работает прямо в терминале.
+В команде `:wq` буква `w` означает сохранить файл, а `q` — закрыть Vim.
+
+Если вы хотите закрыть Vim без сохранения изменений, нажмите `Esc`, введите `:q!` и нажмите `Enter`.
 
 ## Шаг 9. Настройте HTTP-сайт
 
@@ -532,10 +536,10 @@ Nginx хранит настройки сайтов в `/etc/nginx/sites-availabl
 Создайте файл настройки:
 
 ```bash
-sudo nano /etc/nginx/sites-available/student-site
+sudo vim /etc/nginx/sites-available/student-site
 ```
 
-Добавьте:
+Нажмите `i`, чтобы перейти в режим ввода, и добавьте:
 
 ```nginx
 server {
@@ -564,7 +568,7 @@ server {
 | `location /` | Правила обработки запросов к сайту |
 | `try_files` | Проверить существование запрошенного файла, иначе вернуть ошибку 404 |
 
-Сохраните файл и закройте `nano`.
+Нажмите `Esc`, введите `:wq` и нажмите `Enter`, чтобы сохранить файл и закрыть Vim.
 
 Включите созданный сайт:
 
@@ -670,10 +674,17 @@ sudo openssl x509 -in /etc/ssl/certs/student-site.crt -noout -subject -issuer -d
 Снова откройте настройку сайта:
 
 ```bash
-sudo nano /etc/nginx/sites-available/student-site
+sudo vim /etc/nginx/sites-available/student-site
 ```
 
-Удалите старое содержимое и вставьте:
+Удалите старое содержимое:
+
+1. Нажмите `Esc`.
+2. Введите `gg`, чтобы перейти к первой строке.
+3. Введите `dG`, чтобы удалить текст от первой строки до конца файла.
+4. Нажмите `i`, чтобы перейти в режим ввода.
+
+Вставьте новую настройку:
 
 ```nginx
 server {
@@ -702,6 +713,8 @@ server {
     }
 }
 ```
+
+Нажмите `Esc`, введите `:wq` и нажмите `Enter`, чтобы сохранить файл и закрыть Vim.
 
 Теперь в файле находятся два блока `server`.
 
